@@ -33,10 +33,6 @@ def is_valid_seed_hex(text):
         return False, err_msg
 
 
-def double_sha256(text):
-    return sha256(sha256(text)).hexdigest()
-
-
 def is_seed_hash_pair(private_seed_hex, seed_public_hash_hex):
     '''
     Confirm that seed_public_hash_hex is the determinstic result of
