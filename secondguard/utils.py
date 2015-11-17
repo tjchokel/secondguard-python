@@ -50,7 +50,7 @@ def is_seed_hash_pair(private_seed_hex, seed_public_hash_hex):
     assert is_valid, 'seed_public_hash_hex error: %s' % err_msg
 
     # The actual code:
-    return sha256(private_seed_hex).hexdigest() == seed_public_hash_hex
+    return sha256(private_seed_hex.encode('utf-8')).hexdigest() == seed_public_hash_hex
 
 
 def derive_child_key(private_seed_hex, nonce):
@@ -63,7 +63,7 @@ def derive_child_key(private_seed_hex, nonce):
     assert is_valid, 'private_seed_hex error: %s' % err_msg
 
     assert nonce, 'Must supply a nonce'
-    err_msg = 'nonce is of type %s and not `str` or `unicode`' % type(nonce)
-    assert type(nonce) in (str, unicode), err_msg
+    err_msg = 'nonce is of type %s and not `str`' % type(nonce)
+    assert type(nonce) is str, err_msg
 
-    return sha256(private_seed_hex+nonce).hexdigest()
+    return sha256((private_seed_hex+nonce).encode('utf-8')).hexdigest()

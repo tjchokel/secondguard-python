@@ -14,7 +14,7 @@ def is_128_bits(text):
 
         (bool, 'err_msg')
     '''
-    if type(text) in (str, bytes, unicode):
+    if type(text) in (str, bytes):
         if len(text) == 16:
             return True, ''
         else:

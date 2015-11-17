@@ -45,29 +45,28 @@ class TestTraversal(unittest.TestCase):
         assert self.child_key == child_key
 
 
-# TODO: test encrypt/decrypt API calls
+class TestBasicEncryption(unittest.TestCase):
 
+    def setUp(self):
+        self.byte_key = ('a' * 16).encode('utf-8')
+        self.str_key = 'a' * 16
+        self.byte_message = 'Attack at dawn!'.encode('utf-8')
+        self.str_message = 'Attack at dawn!'
+
+    def test_encryption(self):
+        for key in (self.byte_key, self.str_key):
+            for secret_message in (self.byte_message, self.str_message):
+                assert decrypt(encrypt(secret_message, key), key) == secret_message
+
+
+# TODO: test encrypt/decrypt API calls
+'''
 class TestAPI(unittest.TestCase):
 
     def test_ping(self):
         ping_response = ping()
         assert ping_response['pong'] is True
-
-
-class TestBasicEncryption(unittest.TestCase):
-
-    def setUp(self):
-        self.byte_key = ('a' * 16).encode('utf-8')
-        self.unicode_key = ('a' * 16).decode('utf-8')
-        self.str_key = 'a' * 16
-        self.byte_message = 'Attack at dawn!'.encode('utf-8')
-        self.unicode_message = 'Attack at dawn!'.decode('utf-8')
-        self.str_message = 'Attack at dawn!'
-
-    def test_encryption(self):
-        for key in (self.byte_key, self.unicode_key, self.str_key):
-            for secret_message in (self.byte_message, self.unicode_message, self.str_message):
-                assert decrypt(encrypt(secret_message, key), key) == secret_message
+'''
 
 
 # Hackey way to pass encryption credentials to unit tests
@@ -79,12 +78,11 @@ if os.getenv('SG_API_TOKEN'):
             self.seed_pub_hash_hex = os.getenv('SG_SEED_PUB_HASH')
             self.private_seed_hex = os.getenv('SG_PRIVATE_SEED')
             self.byte_message = 'Attack at dawn!'.encode('utf-8')*10
-            self.unicode_message = 'Attack at dawn!'.decode('utf-8')*10
             self.str_message = 'Attack at dawn!'*10
 
         def test_encryption(self):
 
-            for secret_message in (self.byte_message, self.unicode_message, self.str_message):
+            for secret_message in (self.byte_message, self.str_message):
 
                 to_save = sg_encrypt_secret(
                         secret_to_encrypt=secret_message,
