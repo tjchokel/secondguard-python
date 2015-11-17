@@ -12,9 +12,9 @@ from .api import ping
 from .api import get_encryption_info
 from .api import get_decryption_info
 
-from utils import is_valid_seed_hex
-from utils import is_seed_hash_pair
-from utils import derive_child_key
+from .utils import is_valid_seed_hex
+from .utils import is_seed_hash_pair
+from .utils import derive_child_key
 
 from .crypto import encrypt
 from .crypto import decrypt
