@@ -59,19 +59,9 @@ class TestBasicEncryption(unittest.TestCase):
                 assert decrypt(encrypt(secret_message, key), key) == secret_message
 
 
-# TODO: test encrypt/decrypt API calls
-'''
-class TestAPI(unittest.TestCase):
-
-    def test_ping(self):
-        ping_response = ping()
-        assert ping_response['pong'] is True
-'''
-
-
 # Hackey way to pass encryption credentials to unit tests
 if os.getenv('SG_API_TOKEN'):
-    class TestSGEncryption(unittest.TestCase):
+    class TestAPI(unittest.TestCase):
 
         def setUp(self):
             self.api_token = os.getenv('SG_API_TOKEN')
@@ -79,6 +69,10 @@ if os.getenv('SG_API_TOKEN'):
             self.private_seed_hex = os.getenv('SG_PRIVATE_SEED')
             self.byte_message = 'Attack at dawn!'.encode('utf-8')*10
             self.str_message = 'Attack at dawn!'*10
+
+        def test_ping(self):
+            ping_response = ping()
+            assert ping_response['pong'] is True
 
         def test_encryption(self):
 
@@ -95,8 +89,6 @@ if os.getenv('SG_API_TOKEN'):
                         private_seed_hex=self.private_seed_hex,
                         )
                 assert locally_decrypted == secret_message
-
-                # print(to_save)
 
                 api_decrypted = sg_decrypt_secret(
                         to_decrypt=to_save,

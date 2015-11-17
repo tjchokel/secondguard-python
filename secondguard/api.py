@@ -1,6 +1,6 @@
 import requests
 
-ENDPOINT = 'https://api.secondguard.com'
+ENDPOINT = 'http://api.secondguard.com'
 
 
 def ping(api_token=None):

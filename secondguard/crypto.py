@@ -7,6 +7,8 @@ from base64 import standard_b64encode, standard_b64decode
 # Randomness source for cipher
 from os import urandom
 
+from .utils import ENCRYTPABLE_TYPES
+
 
 def is_128_bits(text):
     '''
@@ -14,13 +16,18 @@ def is_128_bits(text):
 
         (bool, 'err_msg')
     '''
-    if type(text) in (str, bytes):
+    if type(text) in ENCRYTPABLE_TYPES:
         if len(text) == 16:
             return True, ''
         else:
             return False, 'Text `%s` is not 16 chars (128 bits)' % text
     else:
-        return False, 'Text `%s` is `%s` not a string or bytes' % (text, type(text))
+        err_msg = 'Text `%s` is of type `%s`, which is not in %s' % (
+                text,
+                type(text),
+                ENCRYTPABLE_TYPES,
+                )
+        return False, err_msg
 
 
 def assert_was_aescfb_encrypted(text):
@@ -55,14 +62,20 @@ def encrypt(secret_message, key, iv=None):
     '''
     # `secret_message` could be a binary object (say a file) or a string
     # need to store this to determine encoding to return when calling `decrypt`
-    if type(secret_message) is bytes:
-        encoding = 'bytes'
-    elif type(secret_message) is str:
-        encoding = 'string'
-    elif type(secret_message) is unicode:
-        encoding = 'unicode'
+    if type(secret_message) in ENCRYTPABLE_TYPES:
+        if type(secret_message) is bytes:
+            encoding = 'bytes'
+        elif type(secret_message) is str:
+            encoding = 'string'
+        elif type(secret_message) is unicode:
+            encoding = 'unicode'
+
     else:
-        raise Exception('`secret_message` must be of type (bytes, str, unicode), not %s' % type(secret_message))
+        raise Exception('`secret_message` is of type %s, must be one of: %s' % (
+            type(secret_message),
+            ','.join([str(x) for x in ENCRYTPABLE_TYPES]),
+            )
+            )
 
     if iv:
         is_128, err_msg = is_128_bits(text=iv)

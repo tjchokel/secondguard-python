@@ -1,8 +1,17 @@
 from hashlib import sha256
 import re
 
+from sys import version_info
 
 HEX_CHARS_RE = re.compile('^[0-9a-f]*$')
+
+ENCRYTPABLE_TYPES = set([bytes, str])
+STRING_TYPES = set([str, ])
+
+
+if version_info.major == 2:
+        ENCRYTPABLE_TYPES.add(unicode)
+        STRING_TYPES.add(unicode)
 
 
 def uses_only_hash_chars(string):
@@ -63,7 +72,10 @@ def derive_child_key(private_seed_hex, nonce):
     assert is_valid, 'private_seed_hex error: %s' % err_msg
 
     assert nonce, 'Must supply a nonce'
-    err_msg = 'nonce is of type %s and not `str`' % type(nonce)
-    assert type(nonce) is str, err_msg
+    err_msg = 'nonce is of type %s and not %s' % (
+            type(nonce),
+            ','.join([str(x) for x in STRING_TYPES]),
+            )
+    assert type(nonce) in STRING_TYPES, err_msg
 
     return sha256((private_seed_hex+nonce).encode('utf-8')).hexdigest()

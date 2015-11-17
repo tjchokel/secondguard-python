@@ -5,7 +5,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='secondguard',
-      version='1.1.4',
+      version='1.1.5',
       description='SecondGuard API & Encryption Library',
       author='Michael Flaxman',
       author_email='mflaxman+secondguard@gmail.com',
