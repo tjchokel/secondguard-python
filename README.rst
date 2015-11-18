@@ -35,7 +35,7 @@ You can also decrypt locally using your private seed. To verify this is working 
     >>> sg_decrypt_from_priv_seed(to_save_in_db, 'YOUR_PRIVATE_SEED')
     'Attack at dawn!'
 
-See ``test_secondguard.py`` for examples for all methods.
+See ``test_secondguard.py`` for examples for all methods. Feel free to audit the code to confirm that all encryption is taking place locally and SecondGuard never sees your plaintext or ciphertext.
 
 
 Installation
