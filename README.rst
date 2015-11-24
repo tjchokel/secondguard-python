@@ -45,7 +45,7 @@ To get started:
 
 .. code-block:: bash
 
-    $ pip install secondgaurd
+    $ pip install secondguard
 
 If you don't have `pip` pre-installed on your machine you can `install pip here <http://pip.readthedocs.org/en/stable/installing/>`_. If for some reason `pip` doesn't work you can use `easy_install`, but `you really shouldn't do that <http://stackoverflow.com/questions/3220404/why-use-pip-over-easy-install>`_.
 
